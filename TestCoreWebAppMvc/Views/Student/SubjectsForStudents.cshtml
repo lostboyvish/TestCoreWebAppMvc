@@ -1,0 +1,23 @@
+﻿@model IEnumerable<TestCoreWebAppMvc.Models.SubjectWithTeacherViewModel>
+
+<h2>List of Students, Subjects, and Teachers</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Subject Name</th>
+            <th>Teachers</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var subject in Model)
+        {
+            <tr>
+                <td>@subject.StudentName</td>
+                <td>@subject.SubjectName</td>
+                <td>@string.Join(", ", subject.Teachers)</td> <!-- Join teacher names with a comma -->
+            </tr>
+        }
+    </tbody>
+</table>
