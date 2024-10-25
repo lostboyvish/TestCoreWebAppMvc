@@ -23,9 +23,6 @@ namespace TestCoreWebAppMvc.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-
-
-
             try
             {
                 var subjects = await _teacherService.GetAllSubjectsAsync();
@@ -45,12 +42,12 @@ namespace TestCoreWebAppMvc.Controllers
 
                 _logger.LogError($"An error occurred while creating a subject: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the subject. Please try again.");
-                return View(ex); // Return the view with an error message
+                return View(ex); 
             }
 
         }
 
-        // POST: Teacher/Create
+        // Adding Teacher Info
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TeacherViewModel viewModel, IFormFile imageFile)
@@ -65,7 +62,6 @@ namespace TestCoreWebAppMvc.Controllers
                         string wwwRootPath = _webHostEnvironment.WebRootPath;
                         string fileName = Path.GetFileName(imageFile.FileName);
                         string path = Path.Combine(wwwRootPath + "/TeacherImages/", fileName);
-
                         using (var fileStream = new FileStream(path, FileMode.Create))
                         {
                             await imageFile.CopyToAsync(fileStream);

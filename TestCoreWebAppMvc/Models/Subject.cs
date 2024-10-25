@@ -12,8 +12,8 @@ namespace TestCoreWebAppMvc.Models
         [Required(ErrorMessage = "Class is required.")]
         public string Class { get; set; }
         public string Language { get; set; }
-        // Relationships
-        public ICollection<StudentSubject>? StudentSubjects { get; set; }
+       
+        
         public ICollection<TeacherSubject> TeacherSubjects { get; set; }
 
     }

@@ -6,11 +6,12 @@ namespace TestCoreWebAppMvc.Models
     public class TeacherViewModel
     {
         public int TeacherId { get; set; }
+        [Required(ErrorMessage = "Name is required.")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Please enter the teacher's age.")]
         [Range(18, 100, ErrorMessage = "Age must be between 18 and 100.")]
         public int Age { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Sex is required.")]
         public string Sex { get; set; }
         public string? Image { get; set; }
         public List<SelectListItem>? Subjects { get; set; } // For subject selection

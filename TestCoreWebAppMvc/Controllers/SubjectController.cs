@@ -30,35 +30,17 @@ namespace TestCoreWebAppMvc.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    return View(subject); // Return the view with validation errors
+                    return View(subject);
                 }
-
-                await _subjectService.AddAsync(subject); // Add the subject to the database
-
-                // Set a success message
-                TempData["SuccessMessage"] = "Subject added successfully!";
-
+                await _subjectService.AddAsync(subject); 
                 return RedirectToAction("Create"); 
             }
             catch (Exception ex)
             {
                 _logger.LogError($"An error occurred while creating a subject: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the subject. Please try again.");
-                return View(subject); // Return the view with an error message
+                return View(subject); 
             }
         }
-        //public async Task<IActionResult> Index()
-        //{
-        //    try
-        //    {
-        //        var subjects = _subjectService.GetAllSubjectsAndTeachers();
-        //        return View(subjects);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _logger.LogError(ex, "An error occurred while fetching subjects");
-        //        return View("Error");
-        //    }
-        //}
     }
 }

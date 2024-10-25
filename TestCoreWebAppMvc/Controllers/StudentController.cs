@@ -71,7 +71,7 @@ namespace TestCoreWebAppMvc.Controllers
 
                 _logger.LogError($"An error occurred while creating a subject: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the subject. Please try again.");
-                return View(ex); // Return the view with an error message
+                return View(ex); 
 
             }
 
@@ -100,13 +100,13 @@ namespace TestCoreWebAppMvc.Controllers
 
                 _logger.LogError($"An error occurred while creating a subject: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the subject. Please try again.");
-                return View(ex); // Return the view with an error message
+                return View(ex); 
             }
             
 
         }
 
-        // POST: Student/Create
+        // POST: Adding Students
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateStudentViewModel viewModel, IFormFile imageFile)
@@ -115,23 +115,17 @@ namespace TestCoreWebAppMvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // Save the student information
                     await _studentService.AddStudentAsync(viewModel);
 
-                    // Handle image upload
                     if (imageFile != null && imageFile.Length > 0)
                     {
-                        // Define the image file path and store it
                         string wwwRootPath = _webHostEnvironment.WebRootPath;
                         string fileName =  Path.GetFileName(imageFile.FileName);
                         string path = Path.Combine(wwwRootPath + "/images/", fileName);
-
-                        // Save the image file to the defined location
                         using (var fileStream = new FileStream(path, FileMode.Create))
                         {
                             await imageFile.CopyToAsync(fileStream);
                         }
-
                         viewModel.Image = fileName;
                         var student = new Student
                         {
@@ -139,18 +133,12 @@ namespace TestCoreWebAppMvc.Controllers
                             Age = viewModel.Age,
                             Class = viewModel.Class,
                             RollNumber = viewModel.RollNumber,
-                            Image = viewModel.Image // This will be updated after image upload
+                            Image = viewModel.Image 
                         };
-
                         await _studentService.UpdateStudentAsync(student);
                     }
-
-                    // Redirect to a list page after successful creation
                     return RedirectToAction("Create");
-                    //return View(viewModel);
                 }
-
-                // Reload subjects if the model state is not valid
                 viewModel.Subjects = (await _studentService.GetAllSubjectsAsync())
                     .Select(s => new SelectListItem
                     {
@@ -180,7 +168,7 @@ namespace TestCoreWebAppMvc.Controllers
 
                 _logger.LogError($"An error occurred while creating a subject: {ex.Message}");
                 ModelState.AddModelError(string.Empty, "An error occurred while creating the subject. Please try again.");
-                return View(ex); // Return the view with an error message
+                return View(ex); 
             }
            
         }
